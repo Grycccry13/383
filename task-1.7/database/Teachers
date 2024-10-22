@@ -1,1 +1,6 @@
-
+add_teacher() {
+  echo "Введите имя преподавателя:"
+  read teacher_name
+  mkdir -p Teachers/$teacher_name
+  echo "Преподаватель $teacher_name добавлен."
+}
