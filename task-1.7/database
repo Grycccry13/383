@@ -1,0 +1,136 @@
+#!/bin/bash
+
+# Создание основных папок 
+mkdir -p Teachers Students Grades
+
+# Функция для добавления преподавателя
+add_teacher() {
+  echo "Введите имя преподавателя:"
+  read teacher_name
+  mkdir -p Teachers/$teacher_name
+  echo "Преподаватель $teacher_name добавлен."
+}
+
+# Функция для добавления студента
+add_student() {
+  echo "Введите имя студента:"
+  read student_name
+  mkdir -p Students/$student_name
+  echo "Студент $student_name добавлен."
+}
+
+# Функция для добавления оценки
+add_grade() {
+  echo "Введите имя студента и оценку:"
+  read student_name grade
+  echo $grade > Grades/${student_name}_grade.txt
+  echo "Оценка для студента $student_name добавлена."
+}
+
+# Функция для удаления преподавателя
+remove_teacher() {
+  echo "Введите имя преподавателя для удаления:"
+  read teacher_name
+  rm -rf Teachers/$teacher_name
+  echo "Преподаватель $teacher_name удален."
+}
+
+# Функция для удаления студента
+remove_student() {
+  echo "Введите имя студента для удаления:"
+  read student_name
+  rm -rf Students/$student_name
+  echo "Студент $student_name удален."
+}
+
+# Функция для удаления оценки
+remove_grade() {
+  echo "Введите имя студента для удаления оценки:"
+  read student_name
+  rm -f Grades/${student_name}_grade.txt
+  echo "Оценка для студента $student_name удалена."
+}
+
+# Функция для перемещения преподавателя
+move_teacher() {
+  echo "Введите имя преподавателя для перемещения:"
+  read teacher_name
+  echo "Куда переместить преподавателя $teacher_name? (Teachers/Students/Grades)"
+  read target_dir
+  mv Teachers/$teacher_name $target_dir
+  echo "Преподаватель $teacher_name перемещен в $target_dir."
+}
+
+# Функция для перемещения студента
+move_student() {
+  echo "Введите имя студента для перемещения:"
+  read student_name
+  echo "Куда переместить студента $student_name? (Teachers/Students/Grades)"
+  read target_dir
+  mv Students/$student_name $target_dir
+  echo "Студент $student_name перемещен в $target_dir."
+}
+
+# Функция для перемещения оценки
+move_grade() {
+  echo "Введите имя студента для перемещения оценки:"
+  read student_name
+  echo "Куда переместить оценку для студента $student_name? (Teachers/Students/Grades)"
+  read target_dir
+  mv Grades/${student_name}_grade.txt $target_dir
+  echo "Оценка для студента $student_name перемещена в $target_dir."
+}
+
+# Главное меню
+while true; do
+  echo "Выберите действие:"
+  echo "1. Добавить"
+  echo "2. Удалить"
+  echo "3. Переместить"
+  echo "4. Выход"
+  read choice
+
+  case $choice in
+    1)
+      echo "Выберите подменю:"
+      echo "1. Добавить преподавателя"
+      echo "2. Добавить студента"
+      echo "3. Добавить оценку"
+      read submenu_choice
+      case $submenu_choice in
+        1) add_teacher;;
+        2) add_student;;
+        3) add_grade;;
+        *) echo "Неверный выбор";;
+      esac;;
+    2)
+      echo "Выберите подменю:"
+      echo "1. Удалить преподавателя"
+      echo "2. Удалить студента"
+      echo "3. Удалить оценку"
+      read submenu_choice
+      case $submenu_choice in
+        1) remove_teacher;;
+        2) remove_student;;
+        3) remove_grade;;
+        *) echo "Неверный выбор";;
+      esac;;
+    3)
+      echo "Выберите подменю:"
+      echo "1. Переместить преподавателя"
+      echo "2. Переместить студента"
+      echo "3. Переместить оценку"
+      read submenu_choice
+      case $submenu_choice in
+        1) move_teacher;;
+        2) move_student;;
+        3) move_grade;;
+        *) echo "Неверный выбор";;
+      esac;;
+    4)
+      echo "Выход из программы."
+      exit 0;;
+    *)
+      echo "Неверный выбор";;
+  esac
+done
