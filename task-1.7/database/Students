@@ -1,6 +1,0 @@
-add_student() {
-  echo "Введите имя студента:"
-  read student_name
-  mkdir -p Students/$student_name
-  echo "Студент $student_name добавлен."
-}
