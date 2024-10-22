@@ -1,0 +1,41 @@
+# Создать основные папки
+mkdir Преподаватели Студенты Оценки
+
+# Создать скрипты
+touch add_data.py
+touch delete_data.py
+touch move_data.py
+
+# Создать подпапки для преподавателей
+mkdir database/Преподаватели/Иванов database/Преподаватели/Петров database/Преподаватели/Сидоров
+
+# Создать файлы с информацией о преподавателях
+touch database/Преподаватели/Иванов/info.txt
+touch database/Преподаватели/Петров/info.txt
+touch database/Преподаватели/Сидоров/info.txt
+
+# Повторить шаги для студентов и оценок
+mkdir database/Студенты/Александров database/Студенты/Борисов database/Студенты/Васильев
+touch database/Студенты/Александров/info.txt
+touch database/Студенты/Борисов/info.txt
+touch database/Студенты/Васильев/info.txt
+
+mkdir database/Оценки/математика database/Оценки/физика database/Оценки/химия
+touch database/Оценки/математика/grades.txt
+touch database/Оценки/физика/grades.txt
+touch database/Оценки/химия/grades.txt
+
+# Скрипт для добавления данных
+# add_data.py
+
+# Скрипт для удаления данных
+# delete_data.py
+
+# Скрипт для перемещения данных
+# move_data.py
+
+# Коммиты (Пример)
+git add .
+git commit -m "Создана структура базы данных"
+
+# Добавьте код в скрипты add_data.py, delete_data.py и move_data.py
