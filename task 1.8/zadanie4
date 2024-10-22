@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# 1. Создать папку cities
+mkdir cities
+
+# 1.1. Создать папки для 10 городов
+for i in $(seq 1 10); do
+  mkdir cities/city$i
+done
+
+# 1.1.1. Создать 5 достопримечательностей (файл)
+for i in $(seq 1 10); do
+  for j in $(seq 1 5); do
+    touch cities/city$i/landmark_$j.txt
+  done
+done
+git add cities/*
+git commit -m "Созданы достопримечательности в городах"
+
+# 1.1.2. Создать 5 ресторанов (файл)
+for i in $(seq 1 10); do
+  for j in $(seq 1 5); do
+    touch cities/city$i/restaurant_$j.txt
+  done
+done
+git add cities/*
+git commit -m "Созданы рестораны в городах"
+
+# 1.1.3. Создать 5 магазинов (файл)
+for i in $(seq 1 10); do
+  for j in $(seq 1 5); do
+    touch cities/city$i/shop_$j.txt
+  done
+done
+git add cities/*
+git commit -m "Созданы магазины в городах"
+
+# 1.2. Создать папку languages
+mkdir languages
+
+# 1.2.1 Создать 10 файлов (языков) у каждого свое расширение
+for i in $(seq 1 10); do
+  touch languages/language_$i.txt
+done
+git add languages/*
+git commit -m "Созданы языковые файлы"
+
+# 1.3. Создать папку utilities
+mkdir utilities
+
+# 1.3.1 Создать 3 произвольных утилиты (папки)
+for i in $(seq 1 3); do
+  mkdir utilities/utility$i
+done
+
+# 1.3.2 В каждой папке requirements.txt, deprecated.txt, uses.txt, features.json 
+for i in $(seq 1 3); do
+  touch utilities/utility$i/requirements.txt
+  touch utilities/utility$i/deprecated.txt
+  touch utilities/utility$i/uses.txt
+  touch utilities/utility$i/features.json
+done
+git add utilities/*
+git commit -m "Созданы файлы для утилит"
+
+# 1.3.3. Вернитесь в папку utilities
+cd utilities
+
+# 1.3.4 Удалить в каждой папке файлы deprecated.txt
+find . -name 'deprecated.txt' -delete
+git add .
+git commit -m "Удалены файлы deprecated.txt"
+
+# 1.4. Создайте папку project
+mkdir project
+
+# 1.4.1. Создайте папку src, dst, temp, resources
+mkdir project/src project/dst project/temp project/resources
+
+# 1.4.2. В папке resources создайте файлы: user.png, admin.png, customer.png
+touch project/resources/user.png
+touch project/resources/admin.png
+touch project/resources/customer.png
+git add project/resources/*
+git commit -m "Созданы файлы изображений"
+
+# 1.4.3. В temp создайте файлы user.txt, root.txt, stud.txt
+touch project/temp/user.txt
+touch project/temp/root.txt
+touch project/temp/stud.txt
+git add project/temp/*
+git commit -m "Созданы тестовые файлы в temp"
+
+# 1.4.4. В каталог src скопировать файлы user.txt, root.txt, stud.txt 
+cp project/temp/*.txt project/src
+git add project/src/*
+git commit -m "Скопированы тестовые файлы в src"
+
+# 1.4.5. В каталоге dst создайте bundle.txt
+touch project/dst/bundle.txt
+git add project/dst/*
+git commit -m "Создан файл bundle.txt"
+
+# 1.5 Вернитесь в папку project
+cd project
+
+# 1.6. Сделайте архив из папок dst и resources
+zip -r archive.zip dst resources
+git add archive.zip
+git commit -m "Создан архив из dst и resources"
