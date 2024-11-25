@@ -1,0 +1,67 @@
+import os
+import telegram
+import argparse
+import logging
+
+# Настройка логирования для отслеживания ошибок
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Замените на ваш токен Telegram Bot API
+BOT_TOKEN = "7059037869:AAG_QV0xD08uGCXHepnJssKLBtMyN-Jcku8"
+CHAT_ID = "@rabotnik10_bot"
+
+# Максимальный размер файла для отправки в Telegram (в байтах)
+MAX_FILE_SIZE = 10 * 1024 * 1024 # 10 MB
+
+try:
+    # Создайте объект бота
+    bot = telegram.Bot(token=BOT_TOKEN)
+except telegram.error.InvalidToken as e:
+    logging.critical(f"Неверный токен Telegram: {e}")
+    exit(1)
+
+
+# Функция для отправки уведомления в Telegram
+def send_telegram_notification(message, file_path=None):
+    try:
+        if file_path:
+            file_size = os.path.getsize(file_path)
+            if file_size > MAX_FILE_SIZE:
+                message = f"Файл {file_path} слишком большой ({file_size} байт). Максимальный размер: {MAX_FILE_SIZE} байт."
+                bot.send_message(chat_id=CHAT_ID, text=message)
+                return
+
+            with open(file_path, 'rb') as f:
+                bot.send_document(chat_id=CHAT_ID, document=f, caption=message, timeout=30) # Увеличили timeout
+        else:
+            bot.send_message(chat_id=CHAT_ID, text=message, timeout=30) # Увеличили timeout
+
+    except telegram.error.TelegramError as e:
+        logging.error(f"Ошибка отправки уведомления/файла в Telegram: {e}")
+    except FileNotFoundError:
+        logging.error(f"Файл {file_path} не найден.")
+    except Exception as e:
+        logging.exception(f"Непредвиденная ошибка: {e}")
+
+
+def find_file(filename, root_dir):
+    for dirpath, dirnames, filenames in os.walk(root_dir):
+        if filename in filenames:
+            return os.path.join(dirpath, filename)
+    return None
+
+
+if name == "main":
+    parser = argparse.ArgumentParser(description="Поиск файла и отправка в Telegram")
+    parser.add_argument("filename", help="Имя файла для поиска")
+    parser.add_argument("root_dir", default=".", help="Корневая директория для поиска (по умолчанию текущая)")
+    args = parser.parse_args()
+
+    file_path = find_file(args.filename, args.root_dir)
+
+    if file_path:
+        message = f"Найден файл: {file_path}"
+        send_telegram_notification(message, file_path)
+    else:
+        message = f"Файл {args.filename} не найден в директории {args.root_dir}"
+        send_telegram_notification(message)
