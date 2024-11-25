@@ -1,0 +1,31 @@
+name: Build and Run Docker Images
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build-nodejs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Node.js image
+        run: docker build -t nodejs-hello-world ./nodejs -f ./nodejs/Dockerfile
+
+      - name: Run Node.js container
+        run: docker run nodejs-hello-world
+
+  build-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Python image
+        run: docker build -t python-hello-world ./python -f ./python/Dockerfile
+
+      - name: Run Python container
+        run: docker run python-hello-world
